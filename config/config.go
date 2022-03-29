@@ -3,25 +3,30 @@ package config
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	AppName      string
-	SqlPrefix    string
-	AppEnv       string
-	DBUserName   string
-	DBPassword   string
-	DBHostWriter string
-	DBHostReader string
-	DBPort       string
-	DBName       string
-	JWT_SECRET   string
+	AppName              string
+	DATABASE             string
+	AppEnv               string
+	SqlPrefix            string
+	DBUserName           string
+	DBPassword           string
+	DBHostWriter         string
+	DBHostReader         string
+	DBPort               string
+	DBName               string
+	DBMaxOpenConnections int
+	DBMaxIdleConnections int
 }
 
 var config Config
 
+// Should run at the very beginning, before any other package
+// or code.
 func init() {
 	appEnv := os.Getenv("APP_ENV")
 	if len(appEnv) == 0 {
@@ -29,7 +34,6 @@ func init() {
 	}
 
 	configFilePath := "./config/.env"
-
 	fmt.Println("reading env from: ", configFilePath)
 
 	e := godotenv.Load(configFilePath)
@@ -37,6 +41,8 @@ func init() {
 		fmt.Println("error loading env: ", e)
 		panic(e.Error())
 	}
+	config.AppName = os.Getenv("SERVICE_NAME")
+	config.AppEnv = appEnv
 	config.SqlPrefix = "/* " + config.AppName + " - " + config.AppEnv + "*/"
 	config.DBUserName = os.Getenv("DB_USERNAME")
 	config.DBHostReader = os.Getenv("DB_HOST_READER")
@@ -44,7 +50,9 @@ func init() {
 	config.DBPort = os.Getenv("DB_PORT")
 	config.DBPassword = os.Getenv("DB_PASSWORD")
 	config.DBName = os.Getenv("DB_NAME")
-	config.JWT_SECRET = os.Getenv("JWT_SECRET")
+	config.DATABASE = os.Getenv("DATABASE")
+	config.DBMaxIdleConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_IDLE_CONENCTION"))
+	config.DBMaxOpenConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_OPEN_CONNECTIONS"))
 }
 
 func Get() Config {

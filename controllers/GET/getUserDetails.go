@@ -12,14 +12,13 @@ import (
 )
 
 func GetUserDetails(c *gin.Context) {
-	getCreatorRequest := requestStruct.GetUserDetailsRequest{}
-	if err := c.ShouldBind(&getCreatorRequest); err != nil {
+	getUserRequest := requestStruct.GetUserDetailsRequest{}
+	if err := c.ShouldBindJSON(&getUserRequest); err != nil {
 		c.JSON(422, utils.SendErrorResponse(err))
 		return
 	}
 	resp := responseStruct.GetCreatorDetailsResponse{}
-
-	UserDetails, err := db.GetCreator(c.Request.Context(), &getCreatorRequest)
+	UserDetails, err := db.GetCreator(c.Request.Context(), &getUserRequest)
 	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
 		resp.Message = "Fetching Details Failed"

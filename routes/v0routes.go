@@ -7,7 +7,7 @@ import (
 )
 
 func v0Routes(route *gin.RouterGroup) {
-	v1Routes := route.Group("/v1")
+	v1Routes := route.Group("/v0")
 	{
 		v1Routes.GET("/getCreator", GET.GetUserDetails)
 		v1Routes.POST("/getCreatorFeed", POST.CreateUser)

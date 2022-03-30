@@ -19,13 +19,13 @@ func CreateUser(c *gin.Context) {
 	}
 	resp := responseStruct.SuccessResponse{}
 	err := db.CreateUser(c.Request.Context(), &createUserStruct)
-	if err != nil {
+	if err != "" {
 		resp.Status = constants.API_FAILED_STATUS
-		resp.Message = "Fetching Details Failed"
+		resp.Message = err
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 	resp.Status = "Success"
-	resp.Message = "Details fetched successfully"
-	c.JSON(http.StatusOK, "gfg")
+	resp.Message = "User Created successfully"
+	c.JSON(http.StatusOK, resp)
 }

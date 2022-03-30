@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	structss "github.com/shivamsouravjha/Micro-Game/services"
@@ -12,12 +11,9 @@ import (
 
 func GetCreator(ctx context.Context, getUserRequest *requestStruct.GetUserDetailsRequest) (*structs.UserDetails, error) {
 	var UserDetails structs.UserDetails
-	var sqlString string
-	sqlString = fmt.Sprintf("SELECT userId,firstName,lastName,penName,userEmail,bio,number FROM `user` WHERE `penName` =  \"%v\" ", getUserRequest.PenName)
-	fmt.Println(sqlString)
+	sqlString := fmt.Sprintf("SELECT userId,firstName,lastName,penName,userEmail,bio,number FROM `user` WHERE `penName` =  \"%v\" ", getUserRequest.PenName)
 	err := structss.Dbmap.SelectOne(&UserDetails, sqlString)
-	fmt.Println(UserDetails.PenName)
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		return nil, err
 	}
 	return &UserDetails, nil

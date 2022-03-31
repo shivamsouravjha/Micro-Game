@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-gorp/gorp"
-	"github.com/shivamsouravjha/Micro-Game/config"
+	"github.com/shivamsouravjha/Micro-Game/ContentService/config"
 
 	_ "github.com/go-sql-driver/mysql"
 )

@@ -1,4 +1,4 @@
-module github.com/shivamsouravjha/Micro-Game
+module github.com/shivamsouravjha/Micro-Game/ContentService
 
 go 1.17
 

@@ -1,14 +1,12 @@
 package requestStruct
 
-type GetUserDetailsRequest struct {
-	PenName string `json:"penName" binding:"required"`
+import structs "github.com/shivamsouravjha/Micro-Game/ContentService/struct"
+
+type GetContent struct {
+	UserID   int `json:"userId" binding:"required"`
+	SeriesID int `json:"seriesId" binding:"required"`
 }
 
-type CreateUserDetails struct {
-	FirstName string `json:"firstName" binding:"required"`
-	LastName  string `json:"lastName"`
-	PenName   string `json:"penName" binding:"required"`
-	UserEmail string `json:"userEmail" binding:"required"`
-	Bio       string `json:"bio"`
-	Number    string `json:"number"`
+type ContentUpload struct {
+	Data []structs.ContentDetails `json:"content"`
 }

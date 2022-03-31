@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shivamsouravjha/Micro-Game/constants"
-	"github.com/shivamsouravjha/Micro-Game/helpers/db"
-	requestStruct "github.com/shivamsouravjha/Micro-Game/struct/request"
-	responseStruct "github.com/shivamsouravjha/Micro-Game/struct/response"
-	"github.com/shivamsouravjha/Micro-Game/utils"
+	"github.com/shivamsouravjha/Micro-Game/UserService/constants"
+	"github.com/shivamsouravjha/Micro-Game/UserService/helpers/db"
+	requestStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/request"
+	responseStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/response"
+	"github.com/shivamsouravjha/Micro-Game/UserService/utils"
 )
 
 func GetUserDetails(c *gin.Context) {
@@ -18,7 +18,7 @@ func GetUserDetails(c *gin.Context) {
 		return
 	}
 	resp := responseStruct.GetCreatorDetailsResponse{}
-	UserDetails, err := db.GetCreator(c.Request.Context(), &getUserRequest)
+	UserDetails, err := db.GetCreatorDAO(c.Request.Context(), &getUserRequest)
 	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
 		resp.Message = "Fetching Details Failed"

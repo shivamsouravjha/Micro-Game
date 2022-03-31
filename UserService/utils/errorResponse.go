@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/shivamsouravjha/Micro-Game/constants"
+import "github.com/shivamsouravjha/Micro-Game/UserService/constants"
 
 func SendErrorResponse(err error) interface{} {
 	return map[string]interface{}{

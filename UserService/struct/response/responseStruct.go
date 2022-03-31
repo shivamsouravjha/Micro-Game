@@ -1,6 +1,6 @@
 package responseStruct
 
-import structs "github.com/shivamsouravjha/Micro-Game/struct"
+import structs "github.com/shivamsouravjha/Micro-Game/UserService/struct"
 
 type GetCreatorDetailsResponse struct {
 	Status  string               `json:"status"`

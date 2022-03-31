@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	structss "github.com/shivamsouravjha/Micro-Game/services"
-	structs "github.com/shivamsouravjha/Micro-Game/struct"
-	requestStruct "github.com/shivamsouravjha/Micro-Game/struct/request"
+	structss "github.com/shivamsouravjha/Micro-Game/UserService/services"
+	structs "github.com/shivamsouravjha/Micro-Game/UserService/struct"
+	requestStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/request"
 )
 
-func CreateUser(ctx context.Context, createUser *requestStruct.CreateUserDetails) string {
+func CreateUserDAO(ctx context.Context, createUser *requestStruct.CreateUserDetails) string {
 	var alreadyExisingUser []structs.UserDetails
 
 	sqlString := fmt.Sprintf("SELECT userId,firstName,lastName,penName,userEmail,bio,number FROM `user` WHERE `penName` =  \"%v\"", createUser.PenName)

@@ -1,4 +1,4 @@
-package post
+package get
 
 import (
 	"net/http"
@@ -11,21 +11,22 @@ import (
 	"github.com/shivamsouravjha/Micro-Game/UserService/utils"
 )
 
-func CreateUser(c *gin.Context) {
-	createUserStruct := requestStruct.CreateUserDetails{}
-	if err := c.ShouldBind(&createUserStruct); err != nil {
+func GetUnlockedContent(c *gin.Context) {
+	getContentRequest := requestStruct.GetUnlockedContent{}
+	if err := c.ShouldBindJSON(&getContentRequest); err != nil {
 		c.JSON(422, utils.SendErrorResponse(err))
 		return
 	}
-	resp := responseStruct.SuccessResponse{}
-	err := db.CreateUserDAO(c.Request.Context(), &createUserStruct)
-	if err != "" {
+	resp := responseStruct.GetCreatorDetailsResponse{}
+	UserDetails, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)
+	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
-		resp.Message = err
+		resp.Message = "Fetching Details Failed"
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 	resp.Status = "Success"
-	resp.Message = "User Created successfully"
+	resp.Message = "Details fetched successfully"
+	resp.Data = UserDetails
 	c.JSON(http.StatusOK, resp)
 }

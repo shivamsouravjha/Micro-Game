@@ -17,3 +17,9 @@ type CreateUserDetails struct {
 	Bio       string `json:"bio"`
 	Number    string `json:"number"`
 }
+
+type UnlockContent struct {
+	UserId    int   `json:"userId"`
+	ContentID []int `json:"contentId"`
+	SeriesID  int   `json:"seriesId"`
+}

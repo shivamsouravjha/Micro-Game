@@ -17,16 +17,16 @@ func GetUnlockedContent(c *gin.Context) {
 		c.JSON(422, utils.SendErrorResponse(err))
 		return
 	}
-	resp := responseStruct.GetCreatorDetailsResponse{}
+	resp := responseStruct.GetContentResponse{}
 	UserDetails, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)
 	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
-		resp.Message = "Fetching Details Failed"
+		resp.Message = "Unlocking Content Failed"
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 	resp.Status = "Success"
-	resp.Message = "Details fetched successfully"
+	resp.Message = "Contents unlocked successfully"
 	resp.Data = UserDetails
 	c.JSON(http.StatusOK, resp)
 }

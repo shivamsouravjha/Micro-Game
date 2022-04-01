@@ -18,7 +18,8 @@ func GetUnlockedContent(c *gin.Context) {
 		return
 	}
 	resp := responseStruct.GetContentResponse{}
-	UserDetails, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)
+	UserContentList, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)
+	userDetails := UserContentList[getContentRequest.SeriesId]
 	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
 		resp.Message = "Unlocking Content Failed"
@@ -27,6 +28,6 @@ func GetUnlockedContent(c *gin.Context) {
 	}
 	resp.Status = "Success"
 	resp.Message = "Contents unlocked successfully"
-	resp.Data = UserDetails
+	resp.Data = userDetails
 	c.JSON(http.StatusOK, resp)
 }

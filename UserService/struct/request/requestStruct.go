@@ -5,8 +5,8 @@ type GetUserDetailsRequest struct {
 }
 
 type GetUnlockedContent struct {
-	UserId   int `json:"userId" binding:"required"`
-	SeriesId int `json:"seriesId" binding:"required"`
+	UserId   string `json:"userId" binding:"required"`
+	SeriesId string `json:"seriesId" binding:"required"`
 }
 
 type CreateUserDetails struct {
@@ -19,7 +19,7 @@ type CreateUserDetails struct {
 }
 
 type UnlockContent struct {
-	UserId    int   `json:"userId"`
-	ContentID []int `json:"contentId"`
-	SeriesID  int   `json:"seriesId"`
+	UserId    string   `json:"userId"`
+	ContentID []string `json:"contentId"`
+	SeriesID  string   `json:"seriesId"`
 }

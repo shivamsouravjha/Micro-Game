@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	structss "github.com/shivamsouravjha/Micro-Game/UserService/services"
@@ -9,13 +10,24 @@ import (
 )
 
 func UnlockContentDAO(ctx context.Context, getUserRequest *requestStruct.UnlockContent) {
-	go unlockContentEvent(getUserRequest.SeriesID, getUserRequest.ContentID, getUserRequest.UserId)
+	go unlockContentEvent(ctx, getUserRequest.SeriesID, getUserRequest.ContentID, getUserRequest.UserId)
 }
 
-func unlockContentEvent(seriesId int, content []int, userId int) {
+func unlockContentEvent(ctx context.Context, seriesId string, content []string, userId string) {
 	for _, chapter := range content {
-		sqlString := fmt.Sprintf("UPDATE user SET items = JSON_ARRAY_APPEND(@unlockedSeries, \"%v\", \"%v\") where userId = \"%v\" ", seriesId, chapter, userId)
-		_, err := structss.Dbmap.Exec(sqlString)
+		getContent := requestStruct.GetUnlockedContent{
+			UserId:   userId,
+			SeriesId: seriesId,
+		}
+		usercontent, err := GetContentDAO(ctx, &getContent)
+		if err != nil {
+			fmt.Println(chapter, err.Error())
+		}
+		usercontent[seriesId] = append(usercontent[seriesId], chapter)
+		seriesContentString, _ := json.Marshal(usercontent)
+		userContent := string((seriesContentString[:]))
+		sqlString := fmt.Sprintf("UPDATE user SET unlockedSeries = '%v' where userId = \"%v\" ", userContent, userId)
+		_, err = structss.Dbmap.Exec(sqlString)
 		if err != nil {
 			fmt.Println(chapter, err.Error())
 		}

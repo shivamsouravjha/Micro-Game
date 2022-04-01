@@ -14,7 +14,7 @@ type SuccessResponse struct {
 }
 
 type GetContentResponse struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Data    []int  `json:"userData"`
+	Status  string        `json:"status"`
+	Message string        `json:"message"`
+	Data    []interface{} `json:"userData"`
 }

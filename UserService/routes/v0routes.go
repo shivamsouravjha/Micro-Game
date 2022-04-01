@@ -11,7 +11,7 @@ func v0Routes(route *gin.RouterGroup) {
 	{
 		v1Routes.GET("/getUser", GET.GetUserDetails)
 		v1Routes.POST("/createUser", POST.CreateUser)
-		v1Routes.POST("/getUnlockedContent", GET.GetUnlockedContent)
+		v1Routes.GET("/getUnlockedContent", GET.GetUnlockedContent)
 		v1Routes.POST("/unlockContent", POST.UnlockContent)
 	}
 }

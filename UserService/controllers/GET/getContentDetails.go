@@ -8,14 +8,14 @@ import (
 	"github.com/shivamsouravjha/Micro-Game/UserService/helpers/db"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/request"
 	responseStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/response"
-	"github.com/shivamsouravjha/Micro-Game/UserService/utils"
 )
 
 func GetUnlockedContent(c *gin.Context) {
-	getContentRequest := requestStruct.GetUnlockedContent{}
-	if err := c.ShouldBindJSON(&getContentRequest); err != nil {
-		c.JSON(422, utils.SendErrorResponse(err))
-		return
+	userId := c.Params.ByName("userId")
+	seriesId := c.Params.ByName("seriesId")
+	getContentRequest := requestStruct.GetUnlockedContent{
+		UserId:   userId,
+		SeriesId: seriesId,
 	}
 	resp := responseStruct.GetContentResponse{}
 	UserContentList, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)

@@ -7,8 +7,8 @@ type ContentDetails struct {
 }
 
 type SeriesDetails struct {
-	SeriesID string   `form:"idseries" binding:"required"`
-	Author   string   `form:"author" binding:"required"`
-	Name     string   `form:"name" binding:"required"`
-	Chapters []string `form:"chapters" binding:"required"`
+	SeriesID string `form:"seriesId" binding:"required"`
+	Author   string `form:"author" binding:"required"`
+	Name     string `form:"name" binding:"required"`
+	Chapters string `form:"chapters" binding:"required"`
 }

@@ -8,14 +8,12 @@ import (
 	"github.com/shivamsouravjha/Micro-Game/ContentService/helpers/db"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/ContentService/struct/request"
 	responseStruct "github.com/shivamsouravjha/Micro-Game/ContentService/struct/response"
-	"github.com/shivamsouravjha/Micro-Game/ContentService/utils"
 )
 
 func GetSeries(c *gin.Context) {
-	getSeriesRequest := requestStruct.GetSeries{}
-	if err := c.ShouldBindJSON(&getSeriesRequest); err != nil {
-		c.JSON(422, utils.SendErrorResponse(err))
-		return
+	seriesId := c.Params.ByName("seriesId")
+	getSeriesRequest := requestStruct.GetSeries{
+		SeriesID: seriesId,
 	}
 	resp := responseStruct.GetSeriesDetails{}
 	UserDetails, err := db.GetSeriesDAO(c.Request.Context(), &getSeriesRequest)

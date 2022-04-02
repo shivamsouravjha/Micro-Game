@@ -11,7 +11,7 @@ func v0Routes(route *gin.RouterGroup) {
 	{
 		v1Routes.GET("/fetchContent", GET.GetContent)
 		v1Routes.POST("/uploadContent", POST.UploadContent)
-		v1Routes.GET("/getSeries", GET.GetSeries)
+		v1Routes.GET("/getSeries/:seriesId", GET.GetSeries)
 		v1Routes.POST("/uploadSeries", POST.UploadSeries)
 	}
 }

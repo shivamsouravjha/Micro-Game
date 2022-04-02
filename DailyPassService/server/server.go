@@ -4,5 +4,5 @@ import "github.com/shivamsouravjha/Micro-Game/DailyPassService/routes"
 
 func Init() {
 	r := routes.NewRouter()
-	r.Run(":" + "4000")
+	r.Run(":" + "6000")
 }

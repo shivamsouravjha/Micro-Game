@@ -8,6 +8,11 @@ type GetContentDetails struct {
 	Data    *[]structs.ContentDetails `json:"metaData"`
 }
 
+type GetSeriesDetails struct {
+	Status  string                 `json:"status"`
+	Message string                 `json:"message"`
+	Data    *structs.SeriesDetails `json:"metaData"`
+}
 type SuccessResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`

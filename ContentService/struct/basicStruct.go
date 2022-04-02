@@ -5,3 +5,10 @@ type ContentDetails struct {
 	Title    string `form:"title" binding:"required"`
 	Story    string `form:"story" binding:"required"`
 }
+
+type SeriesDetails struct {
+	SeriesID string   `form:"idseries" binding:"required"`
+	Author   string   `form:"author" binding:"required"`
+	Name     string   `form:"name" binding:"required"`
+	Chapters []string `form:"chapters" binding:"required"`
+}

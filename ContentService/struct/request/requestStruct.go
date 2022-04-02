@@ -7,6 +7,14 @@ type GetContent struct {
 	SeriesID string `json:"seriesId" binding:"required"`
 }
 
+type GetSeries struct {
+	SeriesID string `json:"seriesId" binding:"required"`
+}
 type ContentUpload struct {
 	Data []structs.ContentDetails `json:"content"`
+}
+type SeriesUpload struct {
+	Author   string   `form:"author" binding:"required"`
+	Name     string   `form:"name" binding:"required"`
+	Chapters []string `form:"chapters" binding:"required"`
 }

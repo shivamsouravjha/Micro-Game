@@ -13,10 +13,8 @@ import (
 func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (map[string][]interface{}, error) {
 	var ChapterDetails structs.UserDetails
 	var socialMediaHandles []byte
-
 	sqlString := fmt.Sprintf("SELECT unlockedSeries FROM `user` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
 	err := structss.Dbmap.SelectOne(&socialMediaHandles, sqlString)
-
 	err = json.Unmarshal(socialMediaHandles, &ChapterDetails.UnlockedSeries)
 	if err != nil {
 		return nil, err

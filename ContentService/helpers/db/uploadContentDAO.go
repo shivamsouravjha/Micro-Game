@@ -11,14 +11,13 @@ import (
 
 func UploadContent(ctx context.Context, createUser *requestStruct.ContentUpload) {
 	go taskUpload(createUser.Data)
-	return
 }
 
 func taskUpload(content []structs.ContentDetails) {
 	for _, element := range content {
-		_, err := structss.Dbmap.Exec("INSERT INTO user (seriesId,story,title) VALUES(?,?,?)", element.SeriesID, element.Story, element.Title)
+		ss, err := structss.Dbmap.Exec("INSERT INTO content (seriesId,story,title) VALUES(?,?,?)", element.SeriesID, element.Story, element.Title)
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Println(err.Error(), ss, element)
 		}
 	}
 }

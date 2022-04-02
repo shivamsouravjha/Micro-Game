@@ -12,14 +12,11 @@ import (
 
 func GetUnlockedContent(c *gin.Context) {
 	userId := c.Params.ByName("userId")
-	seriesId := c.Params.ByName("seriesId")
 	getContentRequest := requestStruct.GetUnlockedContent{
-		UserId:   userId,
-		SeriesId: seriesId,
+		UserId: userId,
 	}
 	resp := responseStruct.GetContentResponse{}
 	UserContentList, err := db.GetContentDAO(c.Request.Context(), &getContentRequest)
-	userDetails := UserContentList[getContentRequest.SeriesId]
 	if err != nil {
 		resp.Status = constants.API_FAILED_STATUS
 		resp.Message = "Unlocking Content Failed"
@@ -28,6 +25,6 @@ func GetUnlockedContent(c *gin.Context) {
 	}
 	resp.Status = "Success"
 	resp.Message = "Contents unlocked successfully"
-	resp.Data = userDetails
+	resp.Data = UserContentList
 	c.JSON(http.StatusOK, resp)
 }

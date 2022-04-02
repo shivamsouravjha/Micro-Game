@@ -10,10 +10,10 @@ import (
 	requestStruct "github.com/shivamsouravjha/Micro-Game/DailyPassService/struct/request"
 )
 
-func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (map[string][]interface{}, error) {
+func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (map[string]string, error) {
 	var ChapterDetails structs.ChapterDetails
 	var socialMediaHandles []byte
-	sqlString := fmt.Sprintf("SELECT unlockedSeries FROM `dailypass` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
+	sqlString := fmt.Sprintf("SELECT unlockedSeries  FROM `dailypass` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
 	err := structss.Dbmap.SelectOne(&socialMediaHandles, sqlString)
 	if err != nil {
 		return nil, err
@@ -22,5 +22,5 @@ func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlo
 	if err != nil {
 		return nil, err
 	}
-	return ChapterDetails.ChapterId, nil //.// [getContentRequest.SeriesId], nil
+	return ChapterDetails.ChapterId, nil
 }

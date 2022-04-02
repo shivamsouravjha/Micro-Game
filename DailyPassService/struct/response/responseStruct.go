@@ -6,7 +6,7 @@ type SuccessResponse struct {
 }
 
 type GetContentResponse struct {
-	Status  string        `json:"status"`
-	Message string        `json:"message"`
-	Data    []interface{} `json:"userData"`
+	Status  string                   `json:"status"`
+	Message string                   `json:"message"`
+	Data    map[string][]interface{} `json:"userData"`
 }

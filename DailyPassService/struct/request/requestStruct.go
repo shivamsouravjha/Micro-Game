@@ -1,8 +1,7 @@
 package requestStruct
 
 type GetUnlockedContent struct {
-	UserId   string `json:"userId" binding:"required"`
-	SeriesId string `json:"seriesId" binding:"required"`
+	UserId string `json:"userId" binding:"required"`
 }
 
 type UnlockContent struct {

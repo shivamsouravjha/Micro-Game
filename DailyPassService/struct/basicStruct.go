@@ -1,5 +1,5 @@
 package structs
 
 type ChapterDetails struct {
-	ChapterId map[string]string `json:"chapterId"`
+	UnlockedContent map[string]string `json:"unlockedSeries"`
 }

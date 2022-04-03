@@ -25,6 +25,6 @@ func GetUnlockedContent(c *gin.Context) {
 	}
 	resp.Status = "Success"
 	resp.Message = "Contents unlocked successfully"
-	resp.Data = UserContentList
+	resp.Data = UserContentList.UnlockedContent
 	c.JSON(http.StatusOK, resp)
 }

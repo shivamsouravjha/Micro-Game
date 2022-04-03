@@ -41,12 +41,12 @@ func (r *RabbitMQ) Connect() error {
 	// Here we declare our new queue that we want to publish to and consume
 	// from:
 	_, err = r.Channel.QueueDeclare(
-		"TestQueue", // Queue Name
-		false,       // durable
-		false,       // Delete when not used
-		false,       // exclusive
-		false,       // no wait
-		nil,         // additional args
+		"CreateUser", // Queue Name
+		false,        // durable
+		false,        // Delete when not used
+		false,        // exclusive
+		false,        // no wait
+		nil,          // additional args
 	)
 	return nil
 }
@@ -54,30 +54,48 @@ func (r *RabbitMQ) Connect() error {
 // Publish - publishes a message to the queue
 func (r *RabbitMQ) Publish(message string) error {
 	// attempt to publish a message to the queue!
-	msgs, _ := r.Channel.Consume(
-		"TestQueue",
+	err := r.Channel.Publish(
 		"",
-		true,
+		"CreateUser",
 		false,
 		false,
-		false,
-		nil,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(message),
+		},
 	)
-
-	forever := make(chan bool)
-	go func() {
-		for d := range msgs {
-			fmt.Printf("Recieved Message: %s\n", d.Body)
-		}
-	}()
-
-	fmt.Println("Successfully Connected to our RabbitMQ Instance")
-	fmt.Println(" [*] - Waiting for messages")
-	<-forever
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 // NewRabbitMQService - returns a pointer to a new RabbitMQ service
 func NewRabbitMQService() *RabbitMQ {
 	return &RabbitMQ{}
+}
+
+type App struct {
+	Rmq *RabbitMQ
+}
+
+func Run(message string) error {
+	rmq := NewRabbitMQService()
+	app := App{
+		Rmq: rmq,
+	}
+
+	err := app.Rmq.Connect()
+	if err != nil {
+		return err
+	}
+	defer app.Rmq.Conn.Close()
+	err = app.Rmq.Publish(message)
+
+	fmt.Println("Successfull published message")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

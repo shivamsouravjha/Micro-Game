@@ -4,10 +4,15 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/shivamsouravjha/Micro-Game/UserService/services"
 	structss "github.com/shivamsouravjha/Micro-Game/UserService/services"
 	structs "github.com/shivamsouravjha/Micro-Game/UserService/struct"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/request"
 )
+
+type App struct {
+	Rmq *services.RabbitMQ
+}
 
 func CreateUserDAO(ctx context.Context, createUser *requestStruct.CreateUserDetails) string {
 	var alreadyExisingUser []structs.UserDetails
@@ -24,7 +29,12 @@ func CreateUserDAO(ctx context.Context, createUser *requestStruct.CreateUserDeta
 		return "Email taken"
 	}
 
-	_, err = structss.Dbmap.Exec("INSERT INTO user (firstName,lastName,penName,userEmail,bio,number) VALUES(?,?,?,?,?,?)", createUser.FirstName, createUser.LastName, createUser.PenName, createUser.UserEmail, createUser.Bio, createUser.Number)
+	user, err := structss.Dbmap.Exec("INSERT INTO user (firstName,lastName,penName,userEmail,bio,number) VALUES(?,?,?,?,?,?)", createUser.FirstName, createUser.LastName, createUser.PenName, createUser.UserEmail, createUser.Bio, createUser.Number)
+	if err != nil {
+		return err.Error()
+	}
+	newUserId, _ := user.LastInsertId()
+	err = services.Run(fmt.Sprintln(newUserId))
 	if err != nil {
 		return err.Error()
 	}

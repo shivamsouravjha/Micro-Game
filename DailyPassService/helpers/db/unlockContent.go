@@ -22,9 +22,9 @@ func unlockContentEvent(ctx context.Context, seriesId string, userId string) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	contentCount, _ := strconv.Atoi(usercontent[seriesId])
+	contentCount, _ := strconv.Atoi(usercontent.UnlockedContent[seriesId])
 	contentCount += 1
-	usercontent[seriesId] = fmt.Sprint(contentCount)
+	usercontent.UnlockedContent[seriesId] = fmt.Sprint(contentCount)
 	seriesContentString, _ := json.Marshal(usercontent)
 	userContent := string((seriesContentString[:]))
 	sqlString := fmt.Sprintf("UPDATE dailypass SET unlockedChapter = JSON_SET(unlockedChapter,'$',\"%v\",) where userId = \"%v\" ", userContent, userId)

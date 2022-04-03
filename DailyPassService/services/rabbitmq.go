@@ -54,26 +54,82 @@ func (r *RabbitMQ) Connect() error {
 // Publish - publishes a message to the queue
 func (r *RabbitMQ) Publish(message string) error {
 	// attempt to publish a message to the queue!
-	err := r.Channel.Publish(
-		"",
-		"TestQueue",
-		false,
-		false,
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(message),
-		},
-	)
-
+	fmt.Println("Connecting to RabbitMQ")
+	var err error
+	r.Conn, err = amqp.Dial("amqp://guest:guest@localhost:5672/")
 	if err != nil {
 		return err
 	}
+	fmt.Println("Successfully Connected to RabbitMQ")
 
-	fmt.Println("Successfully Published Message to Queue")
+	// We need to open a channel over our AMQP connection
+	// This will allow us to declare queues and subsequently consume/publish
+	// messages
+	r.Channel, err = r.Conn.Channel()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	// Here we declare our new queue that we want to publish to and consume
+	// from:
+	_, err = r.Channel.QueueDeclare(
+		"TestQueue", // Queue Name
+		false,       // durable
+		false,       // Delete when not used
+		false,       // exclusive
+		false,       // no wait
+		nil,         // additional args
+	)
 	return nil
 }
 
 // NewRabbitMQService - returns a pointer to a new RabbitMQ service
 func NewRabbitMQService() *RabbitMQ {
 	return &RabbitMQ{}
+}
+
+type App struct {
+	Rmq *RabbitMQ
+}
+
+func Run() {
+	fmt.Println("Go RabbitMQ Tutorial")
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	if err != nil {
+		fmt.Println("Failed Initializing Broker Connection")
+		panic(err)
+	}
+
+	ch, err := conn.Channel()
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer ch.Close()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	msgs, err := ch.Consume(
+		"CreateUser",
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	forever := make(chan bool)
+	go func() {
+		for d := range msgs {
+			fmt.Printf("Recieved Message: %s\n", d.Body)
+			newId := fmt.Sprintf(string(d.Body))
+			fmt.Println(newId)
+		}
+	}()
+
+	fmt.Println("Successfully Connected to our RabbitMQ Instance")
+	fmt.Println(" [*] - Waiting for messages")
+	<-forever
 }

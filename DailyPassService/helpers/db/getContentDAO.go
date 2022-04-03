@@ -10,17 +10,19 @@ import (
 	requestStruct "github.com/shivamsouravjha/Micro-Game/DailyPassService/struct/request"
 )
 
-func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (map[string]string, error) {
+func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (*structs.ChapterDetails, error) {
 	var ChapterDetails structs.ChapterDetails
 	var socialMediaHandles []byte
-	sqlString := fmt.Sprintf("SELECT unlockedSeries  FROM `dailypass` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
+	sqlString := fmt.Sprintf("SELECT unlockedChapters  FROM `dailypass` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
 	err := structss.Dbmap.SelectOne(&socialMediaHandles, sqlString)
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, err
 	}
-	err = json.Unmarshal(socialMediaHandles, &ChapterDetails)
+	err = json.Unmarshal(socialMediaHandles, &ChapterDetails.UnlockedContent)
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, err
 	}
-	return ChapterDetails.ChapterId, nil
+	return &ChapterDetails, nil
 }

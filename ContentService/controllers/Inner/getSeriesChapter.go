@@ -1,7 +1,9 @@
 package inner
 
-import "github.com/shivamsouravjha/Micro-Game/ContentService/helpers/db"
+import (
+	rabbitMQ "github.com/shivamsouravjha/Micro-Game/ContentService/helpers/interconnect"
+)
 
 func GetSeriesChapter(UserId string) string {
-	return db.NewUserContent(UserId)
+	return rabbitMQ.NewUserContent(UserId)
 }

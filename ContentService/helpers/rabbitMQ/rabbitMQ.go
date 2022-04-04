@@ -3,6 +3,7 @@ package rabbitMQ
 import (
 	"fmt"
 
+	Inner "github.com/shivamsouravjha/Micro-Game/ContentService/controllers/Inner"
 	"github.com/streadway/amqp"
 )
 
@@ -108,9 +109,10 @@ func Run(channel string) {
 	go func() {
 		for d := range msgs {
 			fmt.Printf("Recieved Message: %s\n", d.Body)
-			UserId := fmt.Sprintln(d.Body)
-			// UserSeries := Inner.GetSeriesChapter(UserId)
-			fmt.Println(UserId)
+			UserId := string(d.Body)
+			UserSeries := Inner.GetSeriesChapter(UserId)
+			RunPublish("UserSeries", UserSeries)
+			fmt.Println(UserSeries)
 		}
 	}()
 

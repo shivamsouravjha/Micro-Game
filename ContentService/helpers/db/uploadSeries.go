@@ -19,6 +19,13 @@ func UploadSeries(ctx context.Context, uploadSeries *requestStruct.SeriesUpload)
 	}
 
 	insertedSeriesId, _ := insertedSeries.LastInsertId()
-	insertedSeriesIdPush := fmt.Sprintln(insertedSeriesId)
+	newSeries := make(map[int]interface{})
+	if len(uploadSeries.Chapters) > 4 {
+		newSeries[int(insertedSeriesId)] = 4
+	} else {
+		newSeries[int(insertedSeriesId)] = len(uploadSeries.Chapters)
+	}
+
+	insertedSeriesIdPush := fmt.Sprintln(newSeries)
 	rabbitMQ.RunPublish("SeriesContent", insertedSeriesIdPush)
 }

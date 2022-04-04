@@ -1,4 +1,4 @@
-package db
+package rabbitMQ
 
 import (
 	"encoding/json"
@@ -16,7 +16,11 @@ func NewUserContent(userId string) string {
 	sqlString := fmt.Sprintf("SELECT chapters,seriesId FROM `series`")
 	structss.Dbmap.Select(&SeriesDetails, sqlString)
 	for _, series := range SeriesDetails {
-		UserContentDetails.UnlockedChapters[series.SeriesID] = series.Chapters
+		if len(series.Chapters) > 4 {
+			UserContentDetails.UnlockedChapters[series.SeriesID] = 4
+		} else {
+			UserContentDetails.UnlockedChapters[series.SeriesID] = len(series.Chapters)
+		}
 	}
 	responseUserDetails, _ := json.Marshal(UserContentDetails)
 	return string(responseUserDetails)

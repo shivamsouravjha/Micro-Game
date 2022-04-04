@@ -3,6 +3,7 @@ package rabbitMQ
 import (
 	"fmt"
 
+	post "github.com/shivamsouravjha/Micro-Game/DailyPassService/controllers/POST"
 	"github.com/streadway/amqp"
 )
 
@@ -20,7 +21,7 @@ type RabbitMQ struct {
 
 // Connect - establishes a connection to our RabbitMQ instance
 // and declares the queue we are going to be using
-func (r *RabbitMQ) Connect() error {
+func (r *RabbitMQ) Connect(channel string) error {
 	fmt.Println("Connecting to RabbitMQ")
 	var err error
 	r.Conn, err = amqp.Dial("amqp://guest:guest@localhost:5672/")
@@ -41,21 +42,21 @@ func (r *RabbitMQ) Connect() error {
 	// Here we declare our new queue that we want to publish to and consume
 	// from:
 	_, err = r.Channel.QueueDeclare(
-		"SeriesContent", // Queue Name
-		false,           // durable
-		false,           // Delete when not used
-		false,           // exclusive
-		false,           // no wait
-		nil,             // additional args
+		channel, // Queue Name
+		false,   // durable
+		false,   // Delete when not used
+		false,   // exclusive
+		false,   // no wait
+		nil,     // additional args
 	)
 	return nil
 }
 
-func (r *RabbitMQ) Publish(message string) error {
+func (r *RabbitMQ) Publish(channel string, message string) error {
 	// attempt to publish a message to the queue!
 	err := r.Channel.Publish(
 		"",
-		"SeriesContent",
+		channel,
 		false,
 		false,
 		amqp.Publishing{
@@ -78,7 +79,7 @@ type App struct {
 	Rmq *RabbitMQ
 }
 
-func Run() {
+func Run(channel string) {
 	fmt.Println("Go RabbitMQ Tutorial")
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	if err != nil {
@@ -97,7 +98,7 @@ func Run() {
 	}
 
 	msgs, _ := ch.Consume(
-		"SeriesContent",
+		channel,
 		"",
 		true,
 		false,
@@ -106,11 +107,20 @@ func Run() {
 		nil,
 	)
 	forever := make(chan bool)
-	go func() {
-		for d := range msgs {
-			fmt.Printf("Recieved Message: %s\n", d.Body)
-		}
-	}()
+	if channel == "UserSeries" {
+		go func() {
+			for d := range msgs {
+				fmt.Printf("Recieved Message: %s\n", d.Body)
+				post.UnlockContentNewUser(d.Body)
+			}
+		}()
+	} else {
+		go func() {
+			for d := range msgs {
+				fmt.Printf("Recieved Message: %s\n", d.Body)
+			}
+		}()
+	}
 
 	fmt.Println("Successfully Connected to our RabbitMQ Instance")
 	fmt.Println(" [*] - Waiting for messages")

@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	go rabbitMQ.Run()
+	go rabbitMQ.Run("UserSeries")
+	go rabbitMQ.Run("SeriesContent")
 	server.Init()
 }

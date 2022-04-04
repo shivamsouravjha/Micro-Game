@@ -22,13 +22,13 @@ func unlockContentEvent(ctx context.Context, seriesId string, userId string) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	contentCount, _ := strconv.Atoi(usercontent.UnlockedContent[seriesId])
-	contentCount += 1
-	usercontent.UnlockedContent[seriesId] = fmt.Sprint(contentCount)
-	seriesContentString, _ := json.Marshal(usercontent)
-	userContent := string((seriesContentString[:]))
-	sqlString := fmt.Sprintf("UPDATE dailypass SET unlockedChapter = JSON_SET(unlockedChapter,'$',\"%v\",) where userId = \"%v\" ", userContent, userId)
-	_, err = structss.Dbmap.Exec(sqlString)
+	contentCount := fmt.Sprint(usercontent.UnlockedContent[seriesId])
+	contentCountInt, _ := strconv.Atoi(contentCount)
+	contentCountInt += 1
+	usercontent.UnlockedContent[seriesId] = fmt.Sprint(contentCountInt)
+	unlockedContents, _ := json.Marshal(usercontent.UnlockedContent)
+	_, err = structss.Dbmap.Exec("UPDATE dailypass SET unlockedChapters = ? where userId = ?", string(unlockedContents), userId)
+
 	if err != nil {
 		fmt.Println(err.Error())
 	}

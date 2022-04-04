@@ -7,6 +7,7 @@ import (
 
 	"github.com/shivamsouravjha/Micro-Game/ContentService/helpers/rabbitMQ"
 	structss "github.com/shivamsouravjha/Micro-Game/ContentService/services"
+	structs "github.com/shivamsouravjha/Micro-Game/ContentService/struct"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/ContentService/struct/request"
 )
 
@@ -19,13 +20,15 @@ func UploadSeries(ctx context.Context, uploadSeries *requestStruct.SeriesUpload)
 	}
 
 	insertedSeriesId, _ := insertedSeries.LastInsertId()
-	newSeries := make(map[int]interface{})
+	newSeries := structs.UserContent{}
 	if len(uploadSeries.Chapters) > 4 {
-		newSeries[int(insertedSeriesId)] = 4
+		newSeries.Chapter = fmt.Sprint(insertedSeriesId)
+		newSeries.ChapterIndex = fmt.Sprint(4)
 	} else {
-		newSeries[int(insertedSeriesId)] = len(uploadSeries.Chapters)
+		newSeries.Chapter = fmt.Sprint(insertedSeriesId)
+		newSeries.ChapterIndex = fmt.Sprint(len(uploadSeries.Chapters))
 	}
 
-	insertedSeriesIdPush := fmt.Sprintln(newSeries)
-	rabbitMQ.RunPublish("SeriesContent", insertedSeriesIdPush)
+	insertedSeriesIdPush, _ := json.Marshal(newSeries)
+	rabbitMQ.RunPublish("SeriesContent", string(insertedSeriesIdPush))
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	post "github.com/shivamsouravjha/Micro-Game/DailyPassService/controllers/POST"
+	db "github.com/shivamsouravjha/Micro-Game/DailyPassService/helpers/db"
 	"github.com/streadway/amqp"
 )
 
@@ -118,6 +119,7 @@ func Run(channel string) {
 		go func() {
 			for d := range msgs {
 				fmt.Printf("Recieved Message: %s\n", d.Body)
+				db.NewChapter(d.Body)
 			}
 		}()
 	}

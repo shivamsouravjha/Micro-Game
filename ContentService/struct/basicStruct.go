@@ -17,3 +17,8 @@ type NewUserDetails struct {
 	UserId           string                 `json:"userId" binding:"required"`
 	UnlockedChapters map[string]interface{} `json:"unlockedChapters" binding:"required"`
 }
+
+type UserContent struct {
+	Chapter      string `json:"chapter" binding:"required"`
+	ChapterIndex string `json:"chapterIndex" binding:"required"`
+}

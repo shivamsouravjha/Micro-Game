@@ -14,7 +14,7 @@ type ContentUpload struct {
 	Data []structs.ContentDetails `json:"content"`
 }
 type SeriesUpload struct {
-	Author   string   `form:"author" binding:"required"`
-	Name     string   `form:"name" binding:"required"`
-	Chapters []string `form:"chapters" binding:"required"`
+	Author   string   `json:"author" binding:"required"`
+	Name     string   `json:"name" binding:"required"`
+	Chapters []string `json:"chapters" binding:"required"`
 }

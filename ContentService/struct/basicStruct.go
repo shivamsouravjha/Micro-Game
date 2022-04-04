@@ -1,14 +1,19 @@
 package structs
 
 type ContentDetails struct {
-	SeriesID string `form:"seriesId" binding:"required"`
-	Title    string `form:"title" binding:"required"`
-	Story    string `form:"story" binding:"required"`
+	SeriesID string `json:"seriesId" binding:"required"`
+	Title    string `json:"title" binding:"required"`
+	Story    string `json:"story" binding:"required"`
 }
 
 type SeriesDetails struct {
-	SeriesID string `form:"seriesId" binding:"required"`
-	Author   string `form:"author" binding:"required"`
-	Name     string `form:"name" binding:"required"`
-	Chapters string `form:"chapters" binding:"required"`
+	SeriesID string `json:"seriesId" binding:"required"`
+	Author   string `json:"author" binding:"required"`
+	Name     string `json:"name" binding:"required"`
+	Chapters string `json:"chapters" binding:"required"`
+}
+
+type NewUserDetails struct {
+	UserId           string                 `json:"userId" binding:"required"`
+	UnlockedChapters map[string]interface{} `json:"unlockedChapters" binding:"required"`
 }

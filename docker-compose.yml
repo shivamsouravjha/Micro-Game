@@ -1,0 +1,64 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    ports: 
+      - 3307:3306
+    environment: 
+      - MYSQL_ROOT_PASSWORD=12345root
+      - DB_HOST_WRITER=127.0.0.1
+      - DB_NAME=pratilipiuser
+  rabbitmq3:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    container_name: rabbitmq
+
+  content:
+    build:
+      dockerfile: Dockerfile
+      context: ./ContentService
+    container_name: content
+    ports:
+      - "8002:8002"
+    restart: on-failure
+    depends_on:
+      - mysql
+      - rabbitmq3
+
+  interaction:
+    build:
+      dockerfile: Dockerfile
+      context: ./DailyPassService
+    container_name: interaction
+    ports:
+      - "8003:8003"
+    restart: on-failure
+    depends_on:
+      - mysql
+      - rabbitmq3
+
+  user:
+    build:
+      dockerfile: Dockerfile
+      context: ./UserService
+    container_name: user
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - mysql
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    depends_on:
+      - content
+      - interaction
+      - user
+      - rabbitmq3
+    ports:
+      - "80:80"
+
+  

@@ -9,7 +9,6 @@ import (
 )
 
 func UnlockUserContentDAO(userSeries []byte) {
-	fmt.Println(userSeries)
 	var UserContent structs.NewUserContent
 	json.Unmarshal(userSeries, &UserContent)
 	unlockedChapters, _ := json.Marshal(UserContent.UnlockedChapters)

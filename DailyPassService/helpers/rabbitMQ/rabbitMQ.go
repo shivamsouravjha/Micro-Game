@@ -25,7 +25,7 @@ type RabbitMQ struct {
 func (r *RabbitMQ) Connect(channel string) error {
 	fmt.Println("Connecting to RabbitMQ")
 	var err error
-	r.Conn, err = amqp.Dial("amqp://guest:guest@rabbitmq/")
+	r.Conn, err = amqp.Dial("amqp://guest:guest@localhost:5672")
 	if err != nil {
 		return err
 	}
@@ -82,7 +82,7 @@ type App struct {
 
 func Run(channel string) {
 	fmt.Println("Go RabbitMQ Tutorial")
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672")
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672")
 	if err != nil {
 		fmt.Println("Failed Initializing Broker Connection")
 		panic(err)

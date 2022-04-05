@@ -19,6 +19,7 @@ type Config struct {
 	DBHostReader         string
 	DBPort               string
 	DBName               string
+	AMPQ_URL             string
 	DBMaxOpenConnections int
 	DBMaxIdleConnections int
 }
@@ -51,6 +52,7 @@ func init() {
 	config.DBPassword = os.Getenv("DB_PASSWORD")
 	config.DBName = os.Getenv("DB_NAME")
 	config.DATABASE = os.Getenv("DATABASE")
+	config.AMPQ_URL = os.Getenv("AMPQ_URL")
 	config.DBMaxIdleConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_IDLE_CONENCTION"))
 	config.DBMaxOpenConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_OPEN_CONNECTIONS"))
 }

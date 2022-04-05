@@ -3,6 +3,7 @@ package rabbitMQ
 import (
 	"fmt"
 
+	"github.com/shivamsouravjha/Micro-Game/DailyPassService/config"
 	post "github.com/shivamsouravjha/Micro-Game/DailyPassService/controllers/POST"
 	db "github.com/shivamsouravjha/Micro-Game/DailyPassService/helpers/db"
 	"github.com/streadway/amqp"
@@ -25,7 +26,7 @@ type RabbitMQ struct {
 func (r *RabbitMQ) Connect(channel string) error {
 	fmt.Println("Connecting to RabbitMQ")
 	var err error
-	r.Conn, err = amqp.Dial("amqp://guest:guest@localhost:5672")
+	r.Conn, err = amqp.Dial(config.Get().AMPQ_URL)
 	if err != nil {
 		return err
 	}
@@ -82,7 +83,7 @@ type App struct {
 
 func Run(channel string) {
 	fmt.Println("Go RabbitMQ Tutorial")
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672")
+	conn, err := amqp.Dial(config.Get().AMPQ_URL)
 	if err != nil {
 		fmt.Println("Failed Initializing Broker Connection")
 		panic(err)

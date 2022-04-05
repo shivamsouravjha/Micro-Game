@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/shivamsouravjha/Micro-Game/ContentService/helpers/rabbitMQ"
 	structss "github.com/shivamsouravjha/Micro-Game/ContentService/services"
 	structs "github.com/shivamsouravjha/Micro-Game/ContentService/struct"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/ContentService/struct/request"
@@ -16,8 +15,6 @@ import (
 
 func GetContentDAO(ctx context.Context, getContent *requestStruct.GetContent) (*[]structs.ContentDetails, error) {
 	var ContentDetails []structs.ContentDetails
-	rabbitMQ.RunPublish("GetUnlockedContent", "sds")
-	go rabbitMQ.Run("ReturnContent")
 	url := "http://localhost:8003/api/v0/dailypass/getUnlockedContent/" + getContent.UserID
 	response, err := http.Get(url)
 	if err != nil {

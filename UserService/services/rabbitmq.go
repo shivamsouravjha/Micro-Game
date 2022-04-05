@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 
+	"github.com/shivamsouravjha/Micro-Game/UserService/config"
 	"github.com/streadway/amqp"
 )
 
@@ -23,7 +24,7 @@ type RabbitMQ struct {
 func (r *RabbitMQ) Connect() error {
 	fmt.Println("Connecting to RabbitMQ")
 	var err error
-	r.Conn, err = amqp.Dial("amqp://guest:guest@localhost:5672")
+	r.Conn, err = amqp.Dial(config.Get().AMPQ_URL)
 	if err != nil {
 		return err
 	}

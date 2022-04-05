@@ -1,12 +1,10 @@
 package rabbitMQ
 
 import (
-	"encoding/json"
 	"fmt"
 
 	post "github.com/shivamsouravjha/Micro-Game/DailyPassService/controllers/POST"
 	db "github.com/shivamsouravjha/Micro-Game/DailyPassService/helpers/db"
-	requestStruct "github.com/shivamsouravjha/Micro-Game/DailyPassService/struct/request"
 	"github.com/streadway/amqp"
 )
 
@@ -115,15 +113,6 @@ func Run(channel string) {
 			for d := range msgs {
 				fmt.Printf("Recieved Message: %s\n", d.Body)
 				post.UnlockContentNewUser(d.Body)
-			}
-		}()
-	} else if channel == "GetUnlockedContent" {
-		go func() {
-			for d := range msgs {
-				fmt.Printf("Recieved Message: %s\n", d.Body)
-				userId := requestStruct.GetUnlockedContent{}
-				json.Unmarshal(d.Body, &userId)
-				db.GetContentDAO(&userId, true)
 			}
 		}()
 	} else {

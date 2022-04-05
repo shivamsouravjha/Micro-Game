@@ -18,7 +18,7 @@ func unlockContentEvent(ctx context.Context, seriesId string, userId string) {
 	getContent := requestStruct.GetUnlockedContent{
 		UserId: userId,
 	}
-	usercontent, err := GetContentDAO(&getContent, false)
+	usercontent, err := GetContentDAO(ctx, &getContent)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

@@ -7,13 +7,20 @@ services:
     environment: 
       - MYSQL_ROOT_PASSWORD=12345root
       - DB_HOST_WRITER=127.0.0.1
+      - DB_HOST_READER=127.0.0.1
       - DB_NAME=pratilipiuser
+      - DB_USERNAME=root
+      - DB_PORT=3306
+      - DATABASE=mysql
   rabbitmq3:
+    restart: always
     image: rabbitmq:3-management
     ports:
-      - 5672:5672
-      - 15672:15672
+    - "8080:15672"      
     container_name: rabbitmq
+    volumes:
+      - ./rabbit-mq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+
 
   content:
     build:
@@ -49,6 +56,8 @@ services:
     restart: always
     depends_on:
       - mysql
+      - rabbitmq3
+
   nginx-proxy:
     build:
       dockerfile: Dockerfile

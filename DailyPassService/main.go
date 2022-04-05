@@ -8,5 +8,6 @@ import (
 func main() {
 	go rabbitMQ.Run("UserSeries")
 	go rabbitMQ.Run("SeriesContent")
+	go rabbitMQ.Run("GetUnlockedContent")
 	server.Init()
 }

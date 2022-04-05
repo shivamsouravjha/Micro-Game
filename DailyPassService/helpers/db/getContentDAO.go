@@ -1,7 +1,6 @@
 package db
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 
@@ -10,7 +9,7 @@ import (
 	requestStruct "github.com/shivamsouravjha/Micro-Game/DailyPassService/struct/request"
 )
 
-func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlockedContent) (*structs.ChapterDetails, error) {
+func GetContentDAO(getContentRequest *requestStruct.GetUnlockedContent, service bool) (*structs.ChapterDetails, error) {
 	var ChapterDetails structs.ChapterDetails
 	var socialMediaHandles []byte
 	sqlString := fmt.Sprintf("SELECT unlockedChapters  FROM `dailypass` WHERE `userId` =  \"%v\" ", getContentRequest.UserId)
@@ -24,5 +23,12 @@ func GetContentDAO(ctx context.Context, getContentRequest *requestStruct.GetUnlo
 		fmt.Println(err.Error())
 		return nil, err
 	}
+
+	if service {
+		ChapterDetailsQueue, _ := json.Marshal(ChapterDetails)
+		fmt.Println(ChapterDetailsQueue)
+		// rabbitMQ.RunPublish("ReturnContent", string(ChapterDetailsQueue))
+	}
+	fmt.Println("asd")
 	return &ChapterDetails, nil
 }

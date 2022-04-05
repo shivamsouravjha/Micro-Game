@@ -1,10 +1,12 @@
 package rabbitMQ
 
 import (
+	"encoding/json"
 	"fmt"
 
 	post "github.com/shivamsouravjha/Micro-Game/DailyPassService/controllers/POST"
 	db "github.com/shivamsouravjha/Micro-Game/DailyPassService/helpers/db"
+	requestStruct "github.com/shivamsouravjha/Micro-Game/DailyPassService/struct/request"
 	"github.com/streadway/amqp"
 )
 
@@ -115,6 +117,15 @@ func Run(channel string) {
 				post.UnlockContentNewUser(d.Body)
 			}
 		}()
+	} else if channel == "GetUnlockedContent" {
+		go func() {
+			for d := range msgs {
+				fmt.Printf("Recieved Message: %s\n", d.Body)
+				userId := requestStruct.GetUnlockedContent{}
+				json.Unmarshal(d.Body, &userId)
+				db.GetContentDAO(&userId, true)
+			}
+		}()
 	} else {
 		go func() {
 			for d := range msgs {
@@ -127,4 +138,25 @@ func Run(channel string) {
 	fmt.Println("Successfully Connected to our RabbitMQ Instance")
 	fmt.Println(" [*] - Waiting for messages")
 	<-forever
+}
+
+func RunPublish(channel string, message string) error {
+	rmq := NewRabbitMQService()
+	app := App{
+		Rmq: rmq,
+	}
+
+	err := app.Rmq.Connect(channel)
+	if err != nil {
+		return err
+	}
+	defer app.Rmq.Conn.Close()
+	err = app.Rmq.Publish(channel, message)
+
+	if err != nil {
+		return err
+	}
+	fmt.Println("Successfull published message", message)
+
+	return nil
 }

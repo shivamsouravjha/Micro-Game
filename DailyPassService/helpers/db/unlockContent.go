@@ -21,6 +21,7 @@ func unlockContentEvent(ctx context.Context, seriesId string, userId string) {
 	usercontent, err := GetContentDAO(ctx, &getContent)
 	if err != nil {
 		fmt.Println(err.Error())
+		return
 	}
 	contentCount := fmt.Sprint(usercontent.UnlockedContent[seriesId])
 	contentCountInt, _ := strconv.Atoi(contentCount)
@@ -31,6 +32,7 @@ func unlockContentEvent(ctx context.Context, seriesId string, userId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
+		return
 	}
-
+	return
 }

@@ -8,6 +8,7 @@ import (
 	structss "github.com/shivamsouravjha/Micro-Game/UserService/services"
 	structs "github.com/shivamsouravjha/Micro-Game/UserService/struct"
 	requestStruct "github.com/shivamsouravjha/Micro-Game/UserService/struct/request"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type App struct {
@@ -28,8 +29,8 @@ func CreateUserDAO(ctx context.Context, createUser *requestStruct.CreateUserDeta
 	if len(alreadyExisingUser) != 0 || err != nil {
 		return "Email taken"
 	}
-
-	user, err := structss.Dbmap.Exec("INSERT INTO user (firstName,lastName,penName,userEmail,bio,number) VALUES(?,?,?,?,?,?)", createUser.FirstName, createUser.LastName, createUser.PenName, createUser.UserEmail, createUser.Bio, createUser.Number)
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(createUser.Password), 1)
+	user, err := structss.Dbmap.Exec("INSERT INTO user (firstName,lastName,penName,userEmail,bio,number,password) VALUES(?,?,?,?,?,?,?)", createUser.FirstName, createUser.LastName, createUser.PenName, createUser.UserEmail, createUser.Bio, createUser.Number, hashedPassword)
 	if err != nil {
 		return err.Error()
 	}

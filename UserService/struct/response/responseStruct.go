@@ -11,6 +11,7 @@ type GetCreatorDetailsResponse struct {
 type SuccessResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
+	Token   string `json:"token,omitempty"`
 }
 
 type GetContentResponse struct {

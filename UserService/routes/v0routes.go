@@ -11,5 +11,6 @@ func v0Routes(route *gin.RouterGroup) {
 	{
 		v1Routes.GET("/getUser/:penName", GET.GetUserDetails)
 		v1Routes.POST("/createUser", POST.CreateUser)
+		v1Routes.POST("/loginUser", POST.UserLogin)
 	}
 }

@@ -16,6 +16,7 @@ var Dbmap = initDb()
 
 func initDb() *gorp.DbMap {
 	connection := config.Get().DBUserName + ":" + config.Get().DBPassword + "@tcp(" + config.Get().DBHostReader + ":" + config.Get().DBPort + ")/" + config.Get().DBName
+	fmt.Println(connection)
 	db, err := sql.Open(config.Get().DATABASE, connection)
 	checkErr(err, "sql.Open failed")
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}

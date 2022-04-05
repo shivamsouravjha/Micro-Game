@@ -26,11 +26,13 @@ func GetContentDAO(ctx context.Context, getContent *requestStruct.GetContent) (*
 	var chapterDetails map[string]map[string]string
 	err = json.Unmarshal(bodyBytes, &chapterDetails)
 	chapterID, _ := strconv.Atoi(chapterDetails["userData"][getContent.SeriesID])
-	for i := 0; i < chapterID; i++ {
+	fmt.Println(chapterID)
+	for i := 1; i <= chapterID; i++ {
 		var contentDetails structs.ContentDetails
-		sqlString := fmt.Sprintf("SELECT title,story,seriesId FROM `content` WHERE `chapterId` =  \"%v\" ", chapterID)
+		sqlString := fmt.Sprintf("SELECT title,story,seriesId FROM `content` WHERE `chapterId` =  \"%v\" ", i)
 		err = structss.Dbmap.SelectOne(&contentDetails, sqlString)
 		ContentDetails = append(ContentDetails, contentDetails)
+		fmt.Println(contentDetails, i)
 	}
 	if err != nil {
 		return nil, err

@@ -4,6 +4,10 @@ type GetUserDetailsRequest struct {
 	PenName string `json:"penName" binding:"required"`
 }
 
+type UserLogin struct {
+	Password string `json:"password" binding:"required"`
+	PenName  string `json:"penName" binding:"required"`
+}
 type GetUnlockedContent struct {
 	UserId   string `json:"userId" binding:"required"`
 	SeriesId string `json:"seriesId" binding:"required"`
@@ -16,6 +20,7 @@ type CreateUserDetails struct {
 	UserEmail string `json:"userEmail" binding:"required"`
 	Bio       string `json:"bio"`
 	Number    string `json:"number"`
+	Password  string `json:"password"`
 }
 
 type UnlockContent struct {

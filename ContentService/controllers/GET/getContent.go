@@ -11,10 +11,10 @@ import (
 )
 
 func GetContent(c *gin.Context) {
-	contentId := c.Params.ByName("chapterId")
+	seriesId := c.Params.ByName("seriesId")
 	userId := c.Params.ByName("userId")
 	getUserRequest := requestStruct.GetContent{
-		SeriesID: contentId,
+		SeriesID: seriesId,
 		UserID:   userId,
 	}
 	resp := responseStruct.GetContentDetails{}

@@ -10,15 +10,22 @@ import (
 	"github.com/shivamsouravjha/Micro-Game/UserService/utils"
 )
 
-func UnlockContent(c *gin.Context) {
-	unlockContent := requestStruct.UnlockContent{}
-	if err := c.ShouldBind(&unlockContent); err != nil {
+func UserLogin(c *gin.Context) {
+	userPassword := requestStruct.UserLogin{}
+	if err := c.ShouldBind(&userPassword); err != nil {
 		c.JSON(422, utils.SendErrorResponse(err))
 		return
 	}
 	resp := responseStruct.SuccessResponse{}
-	db.UnlockContentDAO(c.Request.Context(), &unlockContent)
+	token, err := db.UserLoginDAO(c.Request.Context(), &userPassword)
+	if err != nil {
+		resp.Status = "Failed"
+		resp.Message = "Login failed,test penname and password"
+		c.JSON(http.StatusInternalServerError, resp)
+		return
+	}
 	resp.Status = "Success"
-	resp.Message = "Content Unlocked successfully"
+	resp.Message = "user loggedin successfully"
+	resp.Token = token
 	c.JSON(http.StatusOK, resp)
 }

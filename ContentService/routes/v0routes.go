@@ -9,7 +9,7 @@ import (
 func v0Routes(route *gin.RouterGroup) {
 	v1Routes := route.Group("/v0/content")
 	{
-		v1Routes.GET("/fetchContent/:userId/:chapterId", GET.GetContent)
+		v1Routes.GET("/fetchContent/:userId/:seriesId", GET.GetContent)
 		v1Routes.POST("/uploadContent", POST.UploadContent)
 		v1Routes.GET("/getSeries/:seriesId", GET.GetSeries)
 		v1Routes.POST("/uploadSeries", POST.UploadSeries)

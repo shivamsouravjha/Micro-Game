@@ -1,8 +1,11 @@
 package server
 
-import "github.com/shivamsouravjha/Micro-Game/UserService/routes"
+import (
+	"github.com/shivamsouravjha/Micro-Game/UserService/config"
+	"github.com/shivamsouravjha/Micro-Game/UserService/routes"
+)
 
 func Init() {
 	r := routes.NewRouter()
-	r.Run(":" + "8001")
+	r.Run(":" + config.Get().PORT)
 }

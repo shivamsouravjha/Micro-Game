@@ -20,7 +20,7 @@ func UserLogin(c *gin.Context) {
 	token, err := db.UserLoginDAO(c.Request.Context(), &userPassword)
 	if err != nil {
 		resp.Status = "Failed"
-		resp.Message = "Login failed,test penname and password"
+		resp.Message = err.Error()
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}

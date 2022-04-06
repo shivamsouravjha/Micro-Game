@@ -1,7 +1,7 @@
 # Micro-Game
 So how does things work?
 * Import Postman Requests [Curl](https://www.getpostman.com/collections/b406514faba24cd2fd1e)
-
+(Import using JSON link)
 ## Explaining APIs:-
 * Get Username
   - Input:Username

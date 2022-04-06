@@ -6,30 +6,39 @@ So how does things work?
 * Get Username
   - Input:Username
   - Output:userId,firstName,lastName,penName,userEmail,bio,number
+  - Sample URL:- https://userserviceshivam.herokuapp.com/api/v0/getUser/:username
 * Create User
   - Input:userId,firstName,lastName,penName,userEmail,bio,number,password
   - Output:token
+  - Sample URL:- https://userserviceshivam.herokuapp.com/api/v0/createUser
 * Login User
   - Input:penName,password
   - Output:token
+  - Sample URL:- https://userserviceshivam.herokuapp.com/api/v0/loginUser
 * Fetch Unlocked Chapters
   - Input:UserID,SeriesID
   - Output:[]{seriesId,title,story}
+  - Sample URL:-https://contentserviceshivam.herokuapp.com/api/v0/content/fetchContent/:userID/:seriesID
 * Bulk Upload Chapters
   - Input:[]{seriesId,title,story}
   - Output:Success Response
+  - Ssample URL:-https://contentserviceshivam.herokuapp.com/api/v0/content/uploadContent
 * Get Series
   - Input:seriesId
   - Output:seriesId,author,name,chapters
+  - Sample URL:-https://contentserviceshivam.herokuapp.com/api/v0/content/getSeries/:seriesID
 * Create Series
   - Input:author,name,chapters
   - Output:Success Response
+  - Sample URL:-https://contentserviceshivam.herokuapp.com/api/v0/content/uploadSeries
 * Unlock Chapters
   - Input:UserID,SeriesID
   - Output:Success Response
+  - Sample URL:-https://dailypassserviceshivam.herokuapp.com/api/v0/dailypass/unlockContent
 * Get Unlock Chapters
   - Input:UserID
   - Output:Chapter and Unlocked List for given user
+  - Sample URL:-https://dailypassserviceshivam.herokuapp.com/api/v0/dailypass/getUnlockedContent/:userID
 
 ## Inter-Connected Microservices:-
 * CreateUser

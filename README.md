@@ -2,6 +2,34 @@
 So how does things work?
 * Import Postman Requests [Curl](https://go.postman.co/workspace/My-Workspace~6a5d2256-e31b-4175-8e51-f49f4bdb27d1/collection/14182772-67a55a70-150d-4fa3-b93b-84c479113a1b?action=share&creator=14182772)
 
+## Explaining APIs:-
+* Get Username
+  - Input:Username
+  - Output:userId,firstName,lastName,penName,userEmail,bio,number
+* Create User
+  - Input:userId,firstName,lastName,penName,userEmail,bio,number,password
+  - Output:token
+* Login User
+  - Input:penName,password
+  - Output:token
+* Fetch Unlocked Chapters
+  - Input:UserID,SeriesID
+  - Output:[]{seriesId,title,story}
+* Bulk Upload Chapters
+  - Input:[]{seriesId,title,story}
+  - Output:Success Response
+* Get Series
+  - Input:seriesId
+  - Output:seriesId,author,name,chapters
+* Create Series
+  - Input:author,name,chapters
+  - Output:Success Response
+* Unlock Chapters
+  - Input:UserID,SeriesID
+  - Output:Success Response
+* Get Unlock Chapters
+  - Input:UserID
+  - Output:Chapter and Unlocked List for given user
 ## Things I used:-
 * Go(lang)
 * SQL

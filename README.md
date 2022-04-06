@@ -1,6 +1,6 @@
 # Micro-Game
 So how does things work?
-* Import Postman Requests [Curl](https://go.postman.co/workspace/My-Workspace~6a5d2256-e31b-4175-8e51-f49f4bdb27d1/collection/14182772-67a55a70-150d-4fa3-b93b-84c479113a1b?action=share&creator=14182772)
+* Import Postman Requests [Curl](https://www.getpostman.com/collections/b406514faba24cd2fd1e)
 
 ## Explaining APIs:-
 * Get Username

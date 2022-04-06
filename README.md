@@ -30,6 +30,15 @@ So how does things work?
 * Get Unlock Chapters
   - Input:UserID
   - Output:Chapter and Unlocked List for given user
+
+## Inter-Connected Microservices:-
+* CreateUser
+  - New User is created and userID is sent to get all available chapter.
+* UserSeries
+  - All available chapters with userID is stored in DailyPass Service Database.
+* SeriesContent
+  - New Series is added,it's added to all existing users.
+
 ## Things I used:-
 * Go(lang)
 * SQL

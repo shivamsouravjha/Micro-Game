@@ -54,6 +54,11 @@ So how does things work?
 * RabbitMQ(to connect microservices)
 * JWT(for unlocking chapters)
 
+## How did I deploy things?
+* [Heroku(to deploy three independent microservices)](https://dashboard.heroku.com/apps)
+* [RabbitMQ](https://lionfish.rmq.cloudamqp.com/)
+* [SQL Server](https://www.freesqldatabase.com/)
+
 ## Overall Schematic 
 ![Group Schema (5)](https://user-images.githubusercontent.com/60891544/161864560-2e77405a-282d-47ed-9764-9808f189b6a0.png)
 

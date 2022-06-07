@@ -1,5 +1,5 @@
 # Micro-Game
-An online self-publishingportal to letusers read thecontent. Theyare meant tohelp readers beconsistent inreading anddevelop aregularuserbase.Chapters areunlocked dailyper series fornew users.New User andNew Contentare managedto make surefree 4 chaptersforeveryone(everychapter addedis madeavailable toeveryone).Independent Micro-Servicesmade to inter-connectServices.MetaData isuploaded inbulk andstored inRelationalDatabase. Thisalso has thefunction ofunlocking achapter everyday for theuser(regularsigning meansone chapterunlockeddaily).
+An online self-publishing portal to let users read the content. Theyare meant tohelp readers be consistent inreading and develop a regular userbase.Chapters are unlocked daily per series for new users.New User and New Content are managed to make sure free 4 chapters for everyone(every chapter added is made available to everyone).Independent Micro-Services made to inter-connect Services.MetaData is uploaded in bulk and stored in Relational Database. This also has the function of unlocking a chapter everyday for the user(regular signing means one chapter unlocked daily).
 
 ## Explaining the Architecture 
 This application contains three services,
